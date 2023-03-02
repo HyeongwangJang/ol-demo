@@ -1,0 +1,12 @@
+.container {
+  width: 1080px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.map-toolbox {
+  position: absolute;
+  z-index: 1000;
+  top: 80px;
+  right: .5em;
+}

@@ -1,30 +1,27 @@
-import { useContext } from 'react';
-import MapContext from './core/contexts/MapContext';
-import './global.css';
+import { Fragment } from 'react'
+import { Routes, Route, Link } from "react-router-dom";
 
-function App() {
+import HomePage from './pages/Home';
+import APage from './pages/a';
+import BPage from './pages/b';
 
-  const { map } = useContext(MapContext)
+import './styles/global.css'
 
-  const handleZoomInClick = () => {
-    map.getView().setZoom(map.getView().getZoom() + 1);
-  };
-
-  const handleZoomOutClick = () => {
-      map.getView().setZoom(map.getView().getZoom() - 1);
-  };
+const App = () => {
 
   return (
-    <div className="container">
-      hello world
-
-      <div>
-        <button onClick={handleZoomInClick}>zoomIn</button>
-        <button onClick={handleZoomOutClick}>zoomOut</button>
-        <div id="map" style={{ width: '100%', height: 400 }}></div>
-      </div>
-    </div>
-  );
+    <Fragment>
+      <Link to='/'>Home</Link>
+      <Link to='a'>AAAA</Link>
+      <Link to='b'>BBBB</Link>
+    
+      <Routes>
+        <Route path="/" element={<HomePage />}></Route>
+        <Route path="/a" element={<APage />}></Route>
+        <Route path="/b" element={<BPage />}></Route>
+      </Routes>
+    </Fragment>
+  )
 }
 
-export default App;
+export default App
