@@ -9,7 +9,7 @@ import VectorLayer from 'ol/layer/Vector'
 import * as interaction from 'ol/interaction'
 import { Type } from 'ol/geom/Geometry'
 
-import { Styles } from '../../../styles/ol'
+import constants from 'core/constants'
 
 export class Measurement {
   /**
@@ -112,7 +112,7 @@ export class Measurement {
     this.draw = new Draw({
       source: source,
       type: type,
-      style: Styles.MEASUREMENT__DEFAULT,
+      style: constants.styles.measurement_layer,
     })
     this.map.addInteraction(this.draw)
     this.drawType = type

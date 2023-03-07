@@ -15,7 +15,6 @@ import MVT from 'ol/format/MVT.js';
 import { createXYZ } from 'ol/tilegrid'
 
 import 'ol/ol.css'
-import { Styles } from '../../styles/ol'
 import { addLayer, createVectorLayer } from '../map/layers/layer.core'
 
 import bar from '../../data/countries.json'
@@ -40,11 +39,6 @@ export const MapProvider = (props: MapProviderProps) => {
   function _initMap() {
     const map = new Map({
       controls: defaultControls({ rotate: false }).extend([new FullScreen()]),
-      layers: [
-        // new Tile({
-        //   source: new OSM(),
-        // }),
-      ],
       target: 'map',
       view: new View({
         projection: 'EPSG:3857',
@@ -56,6 +50,15 @@ export const MapProvider = (props: MapProviderProps) => {
     return map
   }
 
+  function _initOSM(map: Map) {
+    const layer = new Tile({
+      source: new OSM()
+    })
+    layer.set('id', 'osm_layer')
+
+    addLayer(map, layer)
+  }
+
   function _initMeasurementLayer(map: Map) {
     const vectorSource = new Vector({
       features: [],
@@ -63,7 +66,7 @@ export const MapProvider = (props: MapProviderProps) => {
     })
     const options = {
       source: vectorSource,
-      style: Styles.MEASUREMENT__DEFAULT,
+      style: constants.styles.measurement_layer
     }
 
     const layer = createVectorLayer(options, constants.layers.measurement, 1)
@@ -104,6 +107,7 @@ export const MapProvider = (props: MapProviderProps) => {
 
     const map = _initMap()
     _initMeasurementLayer(map)
+    _initOSM(map)
     _initBase(map)
     _initGas(map)
 

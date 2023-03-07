@@ -7,6 +7,9 @@ import { getLayerById } from '../map.core'
 import VectorTileLayer from 'ol/layer/VectorTile'
 import constants from 'core/constants'
 import { Stroke, Style } from 'ol/style'
+import VectorLayer from 'ol/layer/Vector'
+import { Tile } from 'ol/layer'
+import { OSM } from 'ol/source'
 
 type Props = {
   useHorizontal: boolean
@@ -53,13 +56,18 @@ const ToolContainer = (props: Props) => {
   }
 
   function setStyle(color: string) {
-    const layer = getLayerById(map, 'gas_layer');
-    (layer as VectorTileLayer).setStyle(new Style({
+    const layer = getLayerById(map, 'gas_layer') as VectorTileLayer
+    layer.setStyle(new Style({
       stroke: new Stroke({
         color: color,
-        width: 1,
+        width: 2,
       })
     }))
+  }
+
+  function trap() {
+    const layer = getLayerById(map, 'osm_layer') as Tile<OSM>
+    layer.setVisible(!layer.getVisible())
   }
 
   useEffect(() => {
@@ -73,7 +81,7 @@ const ToolContainer = (props: Props) => {
       {
         props.useHorizontal &&
         <div className="tool-container horizontal ol-control">
-          <button type="button" className='tool-button' onClick={() => setStyle('red')}>h</button>
+          <button type="button" className='tool-button' onClick={() => trap()}>h</button>
           <button type="button" className='tool-button' onClick={() => setStyle('yellow')}>o</button>
           <button type="button" className='tool-button' onClick={() => setStyle('blue')}>r</button>
           <button type="button" className='tool-button' onClick={() => setStyle('red')}>i</button>

@@ -1,4 +1,4 @@
-import { Stroke, Style } from "ol/style"
+import { Fill, Stroke, Style } from "ol/style"
 
 const constants = {
   layers: {
@@ -6,12 +6,23 @@ const constants = {
   },
 
   styles: {
-    tt: new Style({
+    measurement_layer: [
+    new Style({
       stroke: new Stroke({
-      color: 'red',
-      width: 2,
+        color: 'rgba(255, 255, 255, 0.8)',
+        width: 6,
+      }),
     }),
-    })
+    new Style({
+      fill: new Fill({
+        color: 'rgba(255, 255, 255, 0.2)',
+      }),
+      stroke: new Stroke({
+        color: 'rgba(197, 150, 25, 0.8)',
+        width: 2,
+      }),
+    }),
+  ]
   }
 }
 
