@@ -3,6 +3,10 @@ import { Fragment, MouseEvent, useContext, useEffect, useState } from 'react'
 import MapContext from 'core/contexts/MapContext'
 
 import { Measurement } from './Measurement'
+import { getLayerById } from '../map.core'
+import VectorTileLayer from 'ol/layer/VectorTile'
+import constants from 'core/constants'
+import { Stroke, Style } from 'ol/style'
 
 type Props = {
   useHorizontal: boolean
@@ -48,6 +52,16 @@ const ToolContainer = (props: Props) => {
     e.currentTarget.classList.toggle('active')
   }
 
+  function setStyle(color: string) {
+    const layer = getLayerById(map, 'gas_layer');
+    (layer as VectorTileLayer).setStyle(new Style({
+      stroke: new Stroke({
+        color: color,
+        width: 1,
+      })
+    }))
+  }
+
   useEffect(() => {
     if (!map) return
     const measurement = new Measurement(map)
@@ -59,16 +73,16 @@ const ToolContainer = (props: Props) => {
       {
         props.useHorizontal &&
         <div className="tool-container horizontal ol-control">
-          <button type="button" className='tool-button'>h</button>
-          <button type="button" className='tool-button'>o</button>
-          <button type="button" className='tool-button'>r</button>
-          <button type="button" className='tool-button'>i</button>
-          <button type="button" className='tool-button'>z</button>
-          <button type="button" className='tool-button'>o</button>
-          <button type="button" className='tool-button'>n</button>
-          <button type="button" className='tool-button'>t</button>
-          <button type="button" className='tool-button'>a</button>
-          <button type="button" className='tool-button'>l</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('red')}>h</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('yellow')}>o</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('blue')}>r</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('red')}>i</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('black')}>z</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('white')}>o</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('orange')}>n</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('skyblue')}>t</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('pink')}>a</button>
+          <button type="button" className='tool-button' onClick={() => setStyle('purple')}>l</button>
         </div>
       }
       {

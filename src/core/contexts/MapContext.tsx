@@ -4,11 +4,15 @@ import { useLocation } from 'react-router-dom'
 import { Feature, Map, View } from 'ol'
 import { defaults as defaultControls, FullScreen } from 'ol/control'
 import { Tile } from 'ol/layer'
-import { OSM, Vector } from 'ol/source'
+import { OSM, Vector, VectorTile } from 'ol/source'
 import { fromLonLat } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
 import { Fill, Stroke, Style } from 'ol/style'
+import VectorTileLayer from 'ol/layer/VectorTile'
+import VectorTileSource from 'ol/layer/VectorTile'
+import MVT from 'ol/format/MVT.js';
+import { createXYZ } from 'ol/tilegrid'
 
 import 'ol/ol.css'
 import { Styles } from '../../styles/ol'
@@ -37,9 +41,9 @@ export const MapProvider = (props: MapProviderProps) => {
     const map = new Map({
       controls: defaultControls({ rotate: false }).extend([new FullScreen()]),
       layers: [
-        new Tile({
-          source: new OSM(),
-        }),
+        // new Tile({
+        //   source: new OSM(),
+        // }),
       ],
       target: 'map',
       view: new View({
@@ -66,51 +70,33 @@ export const MapProvider = (props: MapProviderProps) => {
     addLayer(map, layer)
   }
 
-  function _initVectorLayer(map: Map) {
-    const style = new Style({
-      fill: new Fill({
-        color: '#eeeeee',
-      }),
+  function _initBase(map: Map) {
+    const layer = new VectorTileLayer({
+      source: new VectorTile({
+        tileGrid: createXYZ({ maxZoom: 19 }),
+        format: new MVT(),
+        url: 'http://192.168.0.81:8080/geoserver/gwc/service/tms/1.0.0/testGeoserver:BASE_SIGJ_AS' +
+             '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf'
+      })
     })
-    const vectorSource = new VectorSource({
-      url: 'https://openlayers.org/data/vector/ecoregions.json',
-      format: new GeoJSON(),
-    })
-    const options = {
-      background: '#1a2b39',
-      source: vectorSource,
-      style: (feature: Feature) => {
-        const color = feature.get('COLOR') || '#eeeeee'
-        style.getFill().setColor(color)
-        return style
-      },
-    }
 
-    const layer = createVectorLayer(options, 'vector_layer')
+    layer.set('id', 'base_layer')
+
     addLayer(map, layer)
   }
-
-  function _initCountryLayer(map: Map) {
-    const vectorSource = new VectorSource({
-      features: new GeoJSON().readFeatures(bar, {
-        featureProjection: 'EPSG:3857',
-      }),
+  function _initGas(map: Map) {
+    const layer = new VectorTileLayer({
+      source: new VectorTile({
+        tileGrid: createXYZ({ maxZoom: 19 }),
+        format: new MVT(),
+        url: 'http://192.168.0.81:8080/geoserver/gwc/service/tms/1.0.0/testGeoserver:GAS_GAPI_LS' +
+             '@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf'
+      })
     })
 
-    const options = {
-      source: vectorSource,
-      style: new Style({
-        fill: new Fill({
-          color: '#fff',
-        }),
-        stroke: new Stroke({
-          color: '#2d2d2d',
-          width: 3,
-        }),
-      }),
-    }
-    const vectorLayer = createVectorLayer(options, 'country_layer', 10)
-    addLayer(map, vectorLayer)
+    layer.set('id', 'gas_layer')
+
+    addLayer(map, layer)
   }
 
   useEffect(() => {
@@ -118,8 +104,8 @@ export const MapProvider = (props: MapProviderProps) => {
 
     const map = _initMap()
     _initMeasurementLayer(map)
-    // _initVectorLayer(map)
-    // _initCountryLayer(map)
+    _initBase(map)
+    _initGas(map)
 
     setMapObj({
       map,
