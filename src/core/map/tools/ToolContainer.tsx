@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, MouseEvent, useContext, useEffect, useState } from 'react'
 
 import MapContext from 'core/contexts/MapContext'
 
@@ -14,9 +14,11 @@ const ToolContainer = (props: Props) => {
 
   const [measurement, setMeasurement] = useState<Measurement>()
 
-  function measurementHandler(tool: 'area' | 'distance') {
+  function measurementHandler(e: MouseEvent<HTMLButtonElement>, tool: 'area' | 'distance') {
     const currentDrawType = measurement.getDrawType()
     const active = measurement.getActive()
+
+    toggleActive(e)
 
     switch (tool) {
       case 'area':
@@ -42,6 +44,10 @@ const ToolContainer = (props: Props) => {
     }
   }
 
+  function toggleActive(e: MouseEvent<HTMLButtonElement>) {
+    e.currentTarget.classList.toggle('active')
+  }
+
   useEffect(() => {
     if (!map) return
     const measurement = new Measurement(map)
@@ -52,34 +58,34 @@ const ToolContainer = (props: Props) => {
     <Fragment>
       {
         props.useHorizontal &&
-        <div className="horizontal-tool-container ol-control">
-          <button type="button">h</button>
-          <button type="button">o</button>
-          <button type="button">r</button>
-          <button type="button">i</button>
-          <button type="button">z</button>
-          <button type="button">o</button>
-          <button type="button">n</button>
-          <button type="button">t</button>
-          <button type="button">a</button>
-          <button type="button">l</button>
+        <div className="tool-container horizontal ol-control">
+          <button type="button" className='tool-button'>h</button>
+          <button type="button" className='tool-button'>o</button>
+          <button type="button" className='tool-button'>r</button>
+          <button type="button" className='tool-button'>i</button>
+          <button type="button" className='tool-button'>z</button>
+          <button type="button" className='tool-button'>o</button>
+          <button type="button" className='tool-button'>n</button>
+          <button type="button" className='tool-button'>t</button>
+          <button type="button" className='tool-button'>a</button>
+          <button type="button" className='tool-button'>l</button>
         </div>
       }
       {
         props.useVertical &&
-        <div className="vertical-tool-container ol-control">
-          <button type="button" onClick={() => measurementHandler('area')}>
+        <div className="tool-container vertical ol-control">
+          <button type="button" className='tool-button' onClick={(e) => measurementHandler(e, 'area')}>
             v
           </button>
-          <button type="button" onClick={() => measurementHandler('distance')}>
+          <button type="button" className='tool-button' onClick={(e) => measurementHandler(e, 'distance')}>
             e
           </button>
-          <button type="button">r</button>
-          <button type="button">t</button>
-          <button type="button">i</button>
-          <button type="button">c</button>
-          <button type="button">a</button>
-          <button type="button">l</button>
+          <button type="button" className='tool-button'>r</button>
+          <button type="button" className='tool-button'>t</button>
+          <button type="button" className='tool-button'>i</button>
+          <button type="button" className='tool-button'>c</button>
+          <button type="button" className='tool-button'>a</button>
+          <button type="button" className='tool-button'>l</button>
         </div>
       }
     </Fragment>

@@ -15,6 +15,7 @@ import { Styles } from '../../styles/ol'
 import { addLayer, createVectorLayer } from '../map/layers/layer.core'
 
 import bar from '../../data/countries.json'
+import constants from 'core/constants'
 
 type MapProviderProps = {
   children: ReactNode
@@ -61,7 +62,7 @@ export const MapProvider = (props: MapProviderProps) => {
       style: Styles.MEASUREMENT__DEFAULT,
     }
 
-    const layer = createVectorLayer(options, 'measurement_layer', 1)
+    const layer = createVectorLayer(options, constants.layers.measurement, 1)
     addLayer(map, layer)
   }
 
@@ -117,7 +118,7 @@ export const MapProvider = (props: MapProviderProps) => {
 
     const map = _initMap()
     _initMeasurementLayer(map)
-    _initVectorLayer(map)
+    // _initVectorLayer(map)
     // _initCountryLayer(map)
 
     setMapObj({

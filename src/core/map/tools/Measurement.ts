@@ -154,6 +154,14 @@ export class Measurement {
     })
   }
 
+  removeDrawInteraction() {
+    this.map.getInteractions().forEach((interaction) => {
+      if(interaction instanceof Draw) {
+        this.map.removeInteraction(interaction)
+      }
+    })
+  }
+
   /**
    * Creates a new help tooltip
    */

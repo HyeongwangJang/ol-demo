@@ -10,8 +10,8 @@
   background-color: #eed7d7;
 }
 .app-container > .app-bottom {
-  display: flex;
-  flex-direction: row;
+  /* display: flex; */
+  /* flex-direction: row; */
   flex-grow: 1;
 }
 
@@ -33,17 +33,39 @@
 
 /* App 사이드바 */
 .app-nav-container {
-  width: 240px;
+  position: fixed;
+  width: 240px; height: 100%;
+  left: 0; z-index: 99;
   background-color: #f8eedc;
+  transition: .4s ease-in-out;
 }
+.app-nav-container.nav--closed {
+  left: -240px;
+}
+
 .app-nav-container > nav {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+.app-nav-container .close-button {
+  position: absolute;
+  top: 50%; left: 240px;
+  transform: translateY(-50%);
+  padding: 1em;
+  background: #f0b0b0;
+  /* width; */
+}
 
 /* App 콘텐트 영역 */
 .app-content-container {
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  height: 100%;
+  padding: 1em;
+  margin-left: 240px;
   background-color: #d7f0fa;
+  transition: .4s ease-in-out;
+}
+.app-content-container.nav--closed {
+  margin-left: 0px;
 }

@@ -2,17 +2,23 @@
   position: relative;
 }
 
-.horizontal-tool-container {
+.tool-container {
+  position: absolute;
+  z-index: 99;
+}
+.tool-container.horizontal {
   display: flex;
   flex-direction: row;
-  position: absolute;
-  z-index: 9999;
   top: .5em; right: 64px;
 }
-
-.vertical-tool-container {
-  position: absolute;
-  z-index: 9999;
+.tool-container.vertical {
   top: 64px;
   right: .5em;
+}
+
+.tool-container .tool-button {
+
+}
+.tool-container .tool-button.active {
+  background-color: #aaaaaa;
 }
