@@ -1,8 +1,8 @@
-import { FC, useContext, useEffect } from "react"
-import OLTileLayer from "ol/layer/Tile"
-import TileSource from "ol/source/Tile"
+import { FC, useContext, useEffect } from 'react'
+import OLTileLayer from 'ol/layer/Tile'
+import TileSource from 'ol/source/Tile'
 
-import MapContext from "../../contexts/MapContext"
+import MapContext from '../../contexts/MapContext'
 
 type Props = {
   source: TileSource
@@ -13,7 +13,7 @@ const TileLayer: FC<Props> = ({ source, zIndex = 0 }) => {
   const { map } = useContext(MapContext)
   useEffect(() => {
     if (!map) return
-    
+
     let tileLayer = new OLTileLayer({
       source,
       zIndex,

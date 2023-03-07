@@ -1,26 +1,23 @@
-import { Fragment } from 'react'
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom'
 
-import HomePage from './pages/Home';
-import APage from './pages/a';
-import BPage from './pages/b';
+import HomePage from 'pages/Home'
+import ControlPage from 'pages/Control'
+import APage from 'pages/a'
 
-import './styles/global.css'
+import 'styles/global.css'
+
+import 'styles/map.css'
+
+import 'styles/app-layout.css'
+import 'styles/control-layout.css'
 
 const App = () => {
-
   return (
-    <Fragment>
-      <Link to='/'>Home</Link>
-      <Link to='a'>AAAA</Link>
-      <Link to='b'>BBBB</Link>
-    
-      <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/a" element={<APage />}></Route>
-        <Route path="/b" element={<BPage />}></Route>
-      </Routes>
-    </Fragment>
+    <Routes>
+      <Route path="/" element={<HomePage />}></Route>
+      <Route path="/control" element={<ControlPage />}></Route>
+      <Route path="/extra" element={<APage />}></Route>
+    </Routes>
   )
 }
 

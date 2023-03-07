@@ -1,0 +1,15 @@
+.control-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%; height: 100%;
+  padding: 12px;
+}
+
+.control-nav-container {
+  height: 40px;
+  background-color: bisque;
+}
+.control-map-container {
+  flex-grow: 1;
+}

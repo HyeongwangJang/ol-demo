@@ -42,48 +42,46 @@ export class Measurement {
   /**
    * Message to show when the user is drawing a polygon.
    */
-  readonly continuePolygonMsg = 'Click to continue drawing the polygon';
+  readonly continuePolygonMsg = 'Click to continue drawing the polygon'
 
   /**
    * Message to show when the user is drawing a line.
    */
-  readonly continueLineMsg = 'Click to continue drawing the line';
+  readonly continueLineMsg = 'Click to continue drawing the line'
 
-  draw: interaction.Draw; // global so we can remove it later
+  draw: interaction.Draw // global so we can remove it later
 
-  constructor(
-    private map: ol.Map
-  ) {}
+  constructor(private map: ol.Map) {}
 
   /**
    * @deprecated
    */
   pointerMoveHandler(evt: ol.MapBrowserEvent<any>) {
     if (evt.dragging) {
-      return;
+      return
     }
-    let helpMsg = '';
-  
+    let helpMsg = ''
+
     if (this.sketch) {
-      const geom = this.sketch.getGeometry();
+      const geom = this.sketch.getGeometry()
       if (geom instanceof Polygon) {
-        helpMsg = this.continuePolygonMsg;
+        helpMsg = this.continuePolygonMsg
       } else if (geom instanceof LineString) {
-        helpMsg = this.continueLineMsg;
+        helpMsg = this.continueLineMsg
       }
     }
-    
-    this.helpTooltipElement.innerHTML = helpMsg;
-    this.helpTooltip.setPosition(evt.coordinate);
-  
-    this.helpTooltipElement.classList.remove('hidden');
+
+    this.helpTooltipElement.innerHTML = helpMsg
+    this.helpTooltip.setPosition(evt.coordinate)
+
+    this.helpTooltipElement.classList.remove('hidden')
   }
 
   /**
    * Format length output.
    */
   formatLength(line: LineString) {
-    const length = getLength(line);
+    const length = getLength(line)
     let output
     if (length > 100) {
       output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km'
@@ -97,10 +95,10 @@ export class Measurement {
    * Format area output.
    */
   formatArea(polygon: Polygon) {
-    const area = getArea(polygon);
+    const area = getArea(polygon)
     let output
     if (area > 10000) {
-      output = Math.round((area / 1000000) * 100) / 100 + ' ' + 'km<sup>2</sup>';
+      output = Math.round((area / 1000000) * 100) / 100 + ' ' + 'km<sup>2</sup>'
     } else {
       output = Math.round(area * 100) / 100 + ' ' + 'm<sup>2</sup>'
     }
@@ -114,15 +112,15 @@ export class Measurement {
     this.draw = new Draw({
       source: source,
       type: type,
-      style: Styles.MEASUREMENT__DEFAULT
+      style: Styles.MEASUREMENT__DEFAULT,
     })
     this.map.addInteraction(this.draw)
     this.drawType = type
-  
-    this.createMeasureTooltip();
-    this.createHelpTooltip();
-  
-    let listener: any;
+
+    this.createMeasureTooltip()
+    this.createHelpTooltip()
+
+    let listener: any
     this.draw.on('drawstart', (evt: any) => {
       // set sketch
       this.sketch = evt.feature
@@ -141,9 +139,9 @@ export class Measurement {
         }
         this.measureTooltipElement.innerHTML = output
         this.measureTooltip.setPosition(tooltipCoord)
-      });
-    });
-  
+      })
+    })
+
     this.draw.on('drawend', () => {
       this.measureTooltipElement.className = 'ol-tooltip ol-tooltip-static'
       this.measureTooltip.setOffset([0, -7])
@@ -161,35 +159,37 @@ export class Measurement {
    */
   createHelpTooltip() {
     if (this.helpTooltipElement) {
-      this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement);
+      this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement)
     }
-    this.helpTooltipElement = document.createElement('div');
-    this.helpTooltipElement.className = 'ol-tooltip hidden';
+    this.helpTooltipElement = document.createElement('div')
+    this.helpTooltipElement.className = 'ol-tooltip hidden'
     this.helpTooltip = new ol.Overlay({
       element: this.helpTooltipElement,
       offset: [15, 0],
       positioning: 'center-left',
-    });
-    this.map.addOverlay(this.helpTooltip);
+    })
+    this.map.addOverlay(this.helpTooltip)
   }
 
   /**
    * Creates a new measure tooltip
    */
   createMeasureTooltip() {
-    if(this.measureTooltipElement) {
-      this.measureTooltipElement.parentNode.removeChild(this.measureTooltipElement);
+    if (this.measureTooltipElement) {
+      this.measureTooltipElement.parentNode.removeChild(
+        this.measureTooltipElement
+      )
     }
-    this.measureTooltipElement = document.createElement('div');
-    this.measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure';
+    this.measureTooltipElement = document.createElement('div')
+    this.measureTooltipElement.className = 'ol-tooltip ol-tooltip-measure'
     this.measureTooltip = new ol.Overlay({
       element: this.measureTooltipElement,
       offset: [0, -15],
       positioning: 'bottom-center',
       stopEvent: false,
       insertFirst: false,
-    });
-    this.map.addOverlay(this.measureTooltip);
+    })
+    this.map.addOverlay(this.measureTooltip)
   }
 
   getDrawType() {
@@ -201,8 +201,7 @@ export class Measurement {
   }
 
   setActive(active: boolean) {
-    if(active) this.createMeasureTooltip()
+    if (active) this.createMeasureTooltip()
     this.draw.setActive(active)
   }
-
 }

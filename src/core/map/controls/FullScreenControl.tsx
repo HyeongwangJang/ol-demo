@@ -1,7 +1,7 @@
-import { Fragment, useContext, useEffect } from "react"
-import { FullScreen } from "ol/control"
+import { Fragment, useContext, useEffect } from 'react'
+import { FullScreen } from 'ol/control'
 
-import MapContext from "../../contexts/MapContext"
+import MapContext from '../../contexts/MapContext'
 
 const FullScreenControl = () => {
   const { map } = useContext(MapContext)
@@ -10,11 +10,11 @@ const FullScreenControl = () => {
     if (!map) return
 
     let fullScreenControl = new FullScreen({})
-    // @ts-ignore
-    map.controls.push(fullScreenControl)
-    
-    // @ts-ignore
-    return () => { map.controls.remove(fullScreenControl) }
+    map.addControl(fullScreenControl)
+
+    return () => {
+      map.removeControl(fullScreenControl)
+    }
   }, [map])
 
   return <Fragment></Fragment>

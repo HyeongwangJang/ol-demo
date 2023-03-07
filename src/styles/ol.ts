@@ -1,4 +1,4 @@
-import { Style, Stroke, Fill, Circle, Icon } from 'ol/style';
+import { Style, Stroke, Fill, Circle, Icon } from 'ol/style'
 
 export class Styles {
   /**
@@ -8,18 +8,18 @@ export class Styles {
     new Style({
       stroke: new Stroke({
         color: 'rgba(255, 255, 255, 0.8)',
-        width: 6
-      })
+        width: 6,
+      }),
     }),
     new Style({
       fill: new Fill({
-        color: 'rgba(255, 255, 255, 0.2)'
+        color: 'rgba(255, 255, 255, 0.2)',
       }),
       stroke: new Stroke({
         color: 'rgba(197, 150, 25, 0.8)',
-        width: 2
-      })
-    })
+        width: 2,
+      }),
+    }),
   ]
 
   static POLYGON__DEFAULT = new Style({
@@ -31,5 +31,4 @@ export class Styles {
       color: 'rgba(0, 0, 255, 0.1)',
     }),
   })
-
 }

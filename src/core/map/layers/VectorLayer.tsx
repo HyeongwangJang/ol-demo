@@ -1,9 +1,9 @@
-import { FC, useContext, useEffect } from "react"
-import OLVectorLayer from "ol/layer/Vector"
-import VectorSource from "ol/source/Vector"
-import { Style } from "ol/style"
+import { FC, useContext, useEffect } from 'react'
+import OLVectorLayer from 'ol/layer/Vector'
+import VectorSource from 'ol/source/Vector'
+import { Style } from 'ol/style'
 
-import MapContext from "../../contexts/MapContext"
+import MapContext from '../../contexts/MapContext'
 
 type Props = {
   source: VectorSource
@@ -18,7 +18,7 @@ const VectorLayer: FC<Props> = ({ source, style, zIndex = 0 }) => {
     if (!map) return
     let vectorLayer = new OLVectorLayer({
       source,
-      style
+      style,
     })
     map.addLayer(vectorLayer)
     vectorLayer.setZIndex(zIndex)
@@ -31,4 +31,4 @@ const VectorLayer: FC<Props> = ({ source, style, zIndex = 0 }) => {
   }, [map])
   return null
 }
-export default VectorLayer;
+export default VectorLayer
